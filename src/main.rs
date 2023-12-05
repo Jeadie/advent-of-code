@@ -1,3 +1,8 @@
+mod one;
+
+use one::One;
+
 fn main() {
-    println!("Hello, world!");
+    let result = One();
+    println!("{}", format!("Hello, world := {}!", result.expect("expect to get a good answer")));
 }

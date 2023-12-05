@@ -1,3 +1,7 @@
+use core::fmt;
+use std::{fs, error};
+use std::error::Error;
+
 /**
 --- Day 1: Trebuchet?! ---
 Something is wrong with global snow production, and you've been selected to take a look. The Elves 
@@ -40,6 +44,20 @@ Consider your entire calibration document. What is the sum of all of the calibra
  * 
  */
 
-pub fn One() -> i32 {
+const INPUT_FILEPATH: &'static str = "src/assets/one.txt";
 
+pub fn One() -> Result<i32, Box<dyn Error>> {
+    match fs::read_to_string(INPUT_FILEPATH)?
+        .split('\n')
+        .map(|s| calculate_calibration(s))
+        .reduce(|acc, e| acc + e) {
+            Some(v) => Ok(v),
+            None => Err("couldn't aggregate result".into())
+    }
+}
+
+fn calculate_calibration(x: &str) -> i32 {
+    let first = x.chars().find(|&c| c.is_digit(10)).unwrap().to_digit(10).unwrap();
+    let last = x.chars().rfind(|&c| c.is_digit(10)).unwrap().to_digit(10).unwrap();
+    return (10*first  + last).try_into().unwrap()
 }
