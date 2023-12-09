@@ -44,11 +44,9 @@ Consider your entire calibration document. What is the sum of all of the calibra
  * 
  */
 
-const INPUT_FILEPATH: &'static str = "src/assets/one.txt";
 
-pub fn One() -> Result<i32, Box<dyn Error>> {
-    match fs::read_to_string(INPUT_FILEPATH)?
-        .split('\n')
+pub fn One(input: String) -> Result<i32, Box<dyn Error>> {
+    match input.split('\n')
         .map(|s| calculate_calibration(s))
         .reduce(|acc, e| acc + e) {
             Some(v) => Ok(v),
